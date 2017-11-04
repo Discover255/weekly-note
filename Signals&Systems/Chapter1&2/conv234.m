@@ -1,0 +1,13 @@
+funcx = @(n)((n + 6 > 0).*(n -2 < 0))
+funcz = @(n)(((n > -1).*(n < 4)) + ((n > 3).*(n < 9)).*2)
+n = -5:1:9
+x = funcx(n)
+figure(1)
+plot(n,x)
+z = funcz(n)
+disp(z)
+figure(2)
+plot(n,z)
+y = conv(x,z)
+figure(3)
+plot(y)

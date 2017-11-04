@@ -106,3 +106,41 @@ CPU->总线->I/O桥->主存
 这种跳转是用setjmp和longjmp实现的，它可以在捕捉到信号(SIGNAL)，并作出跳转。与goto有很大的不同。
 # 虚拟存储器
 现代处理器都使用虚拟寻址，而很多嵌入式处理器使用物理寻址。理解虚拟寻址很重要。地址空间与处理器位数有关，2^M，M为处理器位数
+# 系统级I/O
+为什么要学习系统级I/O,许多编程语言已经提供了高级别的I/O函数
+1. 帮助了解系统
+2. 有时只能使用系统级I/O,包括
+    * 标准I/O库没有读取文件元数据的方式
+    * I/O库存在一些问题,使得用它进行网络编程十分冒险
+## UNIX I/O概述
+在Unix中,一切皆文件.Unix中一切文件都是m个字节地序列,所有I/O设备都被模型化成一个个文件,所有的I和O都被当成对应的文件的读和写,这种优雅地映射为文件的方式,使得所有的I和O都能以一种统一且一致的方式来执行:
+1. 打开文件
+2. 改变当前文件的位置
+3. 读写文件
+4. 关闭文件
+## 打开和关闭文件
+```C
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcnt1.h>
+int open(char *filename, int flags, mode_t mode);//open函数的原型
+```
+flags表示要执行的操作,mode表示新文件的权限,它们都可以是多个参数的或
+![访问权限位](访问权限位.png)
+* O_RDONLY 只读
+* O_WRONLY 只写
+* O_RDWR 可读可写
+* O_CREAT 不存在则创建截短的(truncated)空白文件
+* O_TRUNC 已存在则覆盖成空白文件
+* O_APPEND 每次写操作前,设置文件位置到末尾处
+```C
+#define DEF_MODE ...
+#define DEF_UMASK ...
+umask(DEF_UMASK);//通过umask函数设置当前进程的权限
+fd = Open("foo.txt", O_CREAT|O_TRUNC|O_WRONGLY, DEF_MODE);
+//fd是open函数返回的描述码
+```
+```C
+#include <unistd.h>
+int close(int fd);//close的原型,fd是描述码
+```
