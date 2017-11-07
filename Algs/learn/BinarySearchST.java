@@ -82,8 +82,65 @@ public class BinarySearchST<Key extends Comparable<Key>, Value> {
 //        }
 //        values[shouldbe] = value;
         //我这段代码存在的问题:1. 没有实现足够的分支情况考虑,效率不够高 2. 没有resize操作,数组会溢出
+        if (value == null) {
+            delete(key);
+            return;
+        }
 
+        int i = rank(key);
+
+        if (i < n && keys[i].compareTo(key) == 0) {
+            values[i] = value;
+            return;
+        }
+
+        int len = keys.length;
+
+        if (n == len) {
+            resize(2*len);
+        }
+
+        for (int j = n; j > i; j--) {
+            keys[j]   = keys[j - 1];
+            values[j] = values[j - 1];
+        }
+
+        keys[i]   = key;
+        values[i] = value;
+        n++;
+
+        assert check();
     }
+
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (isEmpty()) return;
+        int i = rank(key);
+        if (i == n || keys[i].compareTo(key) != 0) {
+            return;
+        }
+
+        //越界情况是什么样呢，在java中
+        if (i == n - 1) {
+            keys[i]   = null;
+            values[i] = null;
+            return;
+        }
+
+        for (int j = i; j < n; j++) {
+            keys[j]   = keys[j + 1];
+            values[j] = values[j + 1];
+        }
+        keys[n]   = null;
+        values[n] = null;
+        if (n > 0 && n == keys.length/4) {
+            resize(keys.length/2);
+        }
+        assert check();
+        //return;//源程序此处为什么不用return?<-这是个void函数啊
+    }
+
+
 
     //rank就是核心的函数,check要怎么实现呢?
 }
