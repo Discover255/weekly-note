@@ -52,4 +52,28 @@ private void dfs(Graph G, int v)
     }
 }
 ```
+## 广度优先搜索
+1. 标记起点，加入队列
+2. 进入循环
+3. 循环中，从队列取出一个元素，遍历
+4. 遍历的操作是标记并加入队列，标记到edgeTo，如果已标记则不加入队列
+5. 直到队列为空，退出循环
 
+```Java
+private void bfs(Graph G, int s) {
+    Queue<Integar> queue = new Queue<Integar>();
+    marked[s] = true;
+    queue.enqueue(s);
+    while (!queue.isEmpty())
+    {
+        int v = queue.dequeue();
+        for (int w : G.adj(v))
+            if (!marked[w])
+            {
+              edgeTo[w] = v;
+              marked[w] = true;
+              queue.enqueue(w);
+            }
+    }
+}
+```
