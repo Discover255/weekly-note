@@ -92,7 +92,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         //修复红黑二叉树
         if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
         if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
-        if (isRed(h.left) && isRed(h.right)) flipColor(h);
+        if (isRed(h.left) && isRed(h.right)) flipColors(h);
         h.size = size(h.right) + size(h.left) + 1;
 
         return h;
@@ -146,5 +146,56 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
     //这中间还有一个delete()函数，我想写完后面的基础函数之后再来实现
 
+    private Node rotateRight(Node h) {
+        Node x = h.left;
+        //assert (h != null) && (isRed(x))
+//        Node temp = new Node(x.key, x.val, h.color, size(x));
+//        temp.left = x.left;
+//        temp.right = h;
+//        temp.right.left = x.right;
+//        temp.right.right = h.right;
+        //比较low的写法
+        h.left = x.right;
+        x.right = h;
+        x.color = x.right.color;
+        x.right.color = RED;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;//更新h的size
+        return x;
+    }
 
+    private Node rotateLeft(Node h) {
+        //assert (h != null) && (isRed(h.right))
+        Node x = h.right;
+        x.left = h;
+        h.right = x.left;//和上一行交换顺序有没有影响？
+        x.color = x.left.color;
+        x.size = h.size;
+        h.size = size(h.left) + size(h.right) + 1;
+        return x;
+    }
+
+    private void flipColors(Node h) {
+        //这是翻转颜色的意思
+        //而且根据源码来看，仅仅是作颜色的修改，不作任何其他的动作
+        h.color = !h.color;
+        h.left.color = !h.left.color;
+        h.right.color = !h.right.color;
+    }
+
+    private Node moveRedLeft(Node h) {
+        //isRed(h.left) && isRed(h.left.left)
+//        Node x = h.left;
+//        x.right = h;
+//        h.left = h.left.right;
+//        x.color = BLACK;
+//        x.right.color = BLACK;
+//        x.left.color = BLACK;
+//        x.size = h.size;
+//        h.size = size(h.left) + size(h.right) + 1;
+//        return x;
+        //可以复用前面的方法
+        flipColors(h);
+
+    }
 }

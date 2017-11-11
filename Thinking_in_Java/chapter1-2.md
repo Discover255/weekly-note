@@ -10,3 +10,90 @@
 Java与C++和脚本语言的区别.Java没有C++这么多的历史包袱,没有C++灵活.而脚本语言在很多领域的优势在于快速开发,在客户端编程中,脚本语言能帮你解决80%的问题,而剩下的20%最让人头疼的问题,Java解决会比较容易.
 
 高并发包括多进程和多线程?多线程的优势在于不仅可以在多核系统上运行,也可以在多处理器的系统上运行.多线程在于将任务拆分成多个部分,同时运行.它在GUI编程中非常常用,因为GUI编程要求要对用户操作作出迅速反应,它不应该是阻塞的.多个线程访问一个资源时,有时是不可行的,这时需要锁这个概念.
+
+# 第二章 一切都是对象
+
+创建对象存储到以下五个地方之一
+
+1. 寄存器
+2. 堆栈
+3. 堆
+4. 常量存储
+5. 非RAM存储
+
+![](java基本类型.png)
+
+java除了基本类型，还在类库中提供了BigIntegar和BigDecimal，分别支持任意精度的整数和任何精度的定点数
+
+java中的数组和c/c++不同，c/c++的数组就是一个连续内存块，而Java中的数组作了处理，使得数组更加安全。c++中有std::array，比单纯的c数组更安全。c中数组名和下标互换的原理是a[b]等价于*(a+b)
+
+## 永远不需要销毁对象
+
+### 作用域
+
+Java中的嵌套代码块，子代码块可以访问父代码块中的变量，而c/c++不行
+
+由new创建的对象在作用域结束之后依然会存在，在c++中，需要手动释放这些空间。而Java有一个垃圾回收器，会自动地回收。
+
+## 创建新的数据类型：类
+
+一个类的成员分为字段和方法，字段在类被初始化后，是有一个默认值的。
+
+<img src="变量默认值.png" style="max-width:45%"></img>
+
+C/C++中的函数在Java里常被称为方法(method)
+
+static变量和方法无论是否初始化，都指向同一个东西
+
+## 注释与文档
+
+Java中的注释有C式的/* */，也有C++式的//。
+
+ javadoc文档有两种方式，一是使用内嵌html，二是使用文档标签。以开始，每一行前面都要有，以*/结尾。
+
+```Java
+//:object/Documentation1.java
+/** A class comment */
+public class Documentation1{
+  /** A field comment*/
+  public int i;
+  /** A method comment */
+  public void() f() {}
+}///:~
+//这是分层的注释文档
+/**
+* <pre>
+* System.out.println(new Date());
+* </pre>
+*/
+//内嵌html
+@see classname //这是@see标签
+```
+
+文档示例
+
+```Java
+//:object/HelloDate.java
+import java.util.*;
+/** The firsh Thinking in Java example program.
+ * Displays a string and today's date.
+ * @author Bruce Eckel
+ * @author www.MinView.net
+ * @version 4.0
+*/
+public class HelloDate {
+  /** Entry point to class & application.
+   * @param args array of string arguments
+   * @throws exceptions No exceptions thrown
+   */
+  public static void main(String[] args) {
+    System.out.println("Hello, it's:");
+    System.out.println(new Date());
+  }
+}/* Output: (55% match)
+Hello, it's:
+Wed Oct...
+*///:~
+```
+
+/*Output标签表示输出的开始部分将由这个文件生成，通过这种形式，它会被自动地测试，一验证其准确性。(55% match)在向测试系统说明输出与这里列出的只有55%的相关性。
