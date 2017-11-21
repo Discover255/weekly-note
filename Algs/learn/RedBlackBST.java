@@ -158,7 +158,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.left = x.right;
         x.right = h;
         x.color = x.right.color;
-        x.right.color = RED;
+        x.right.color = RED;//右旋转就把右边定为红链接
         x.size = h.size;
         h.size = size(h.left) + size(h.right) + 1;//更新h的size
         return x;
@@ -168,9 +168,10 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         //assert (h != null) && (isRed(h.right))
         Node x = h.right;
         x.left = h;
-        h.right = x.left;//和上一行交换顺序有没有影响？
+        h.right = x.left;//和上一行交换顺序有没有影响？没有
         x.color = x.left.color;
         x.size = h.size;
+        h.color = RED;
         h.size = size(h.left) + size(h.right) + 1;
         return x;
     }
@@ -183,6 +184,9 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         h.right.color = !h.right.color;
     }
 
+
+
+    //这两个函数不知道是干什么的，它们出现在delete相关的函数
     private Node moveRedLeft(Node h) {
         //isRed(h.left) && isRed(h.left.left)
 //        Node x = h.left;
@@ -196,6 +200,30 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 //        return x;
         //可以复用前面的方法
         flipColors(h);
+        if (isRed(h.right.left)) {
+            h.right = rotateRight(h.right);
+            h       = rotateLeft(h);
+            flipColors(h);
+            //我们这里不需要考虑颜色，仅仅考虑树的形状就行了
+            //我猜测这是在把一个4节点转化成3个2节点，但是好像不对，因为没有连续的红链接
+        }
+        return h;
+    }
 
+    private Node moveRedRight(Node h) {
+        flipColors(h);
+        if (isRed(h.left.left)) {
+            h = rotateRight(h);
+            flipColors(h);
+        }
+        return h;
+    }
+
+    private Node balance(Node h) {
+        if (!isRed(h.left) && isRed(h.right)) h = rotateLeft(h);
+        if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
+        if (isRed(h.left) && isRed(h.right)) flipColors(h);
+        h.size = size(h.left) + size(h.right) + 1;
+        return h;
     }
 }
