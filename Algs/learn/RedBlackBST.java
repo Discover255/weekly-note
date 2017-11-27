@@ -146,6 +146,26 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
 
     //这中间还有一个delete()函数，我想写完后面的基础函数之后再来实现
 
+    public void delete(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to delete() is null");
+        if (!contains(key)) return;
+        //如果找不到就返回
+
+        //如果根结点的左右链接都是黑链接，那么把根结点设置为红
+        if (!isRed(root.left) && !isRed(root.right))
+            root.color = RED;
+
+        root = delete(root, key);
+        if (!isEmpty()) root.color = BLACK;
+        //原来是把root临时设置为红？
+    }
+
+    private Node delete(Node h, Key key) {
+        if (key.compareTo(h.key) < 0) {
+            if ()
+        }
+    }
+
     private Node rotateRight(Node h) {
         Node x = h.left;
         //assert (h != null) && (isRed(x))
