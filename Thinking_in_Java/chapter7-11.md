@@ -26,6 +26,11 @@ public class SpaceShip {
     }
 }
 ```
+
+# 多态
+
+书中举出了Instrument和导出类Wind的例子。这里引入了后期绑定这个概念，final能告诉编译器关闭后期绑定。
+
 # 接口
 
 以Instrument为例，Instrument是一个基类，它的方法往往是哑方法，直接使用会抛出错误。Instrument的目的是为了导出类创建一个 __通用接口__

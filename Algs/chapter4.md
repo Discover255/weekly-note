@@ -160,8 +160,39 @@ Krustal算法也使用优先队列。它的过程就像是根据边的权重，�
 
 松弛这个术语来自于用一根橡皮筋沿着最短路径紧紧展开的比喻，放松一条边就相当于将橡皮筋转移到了一条更短的路径上，从而缓解了橡皮筋的压力。
 
+### 放松的实现
+
+```Java
+private void relax(EdgeWeightedDigraph G, int v) {
+  for (DirectEdge e : G.adj(v)) {//取一条边
+    int w = e.to();
+    if (distTo[w] > distTo[v] + e.weight()) {//将边的指向顶点的distTo[]对比，如果放松成功就更新
+      distTo[w] = distTo[v] + e.weight;
+      edgeTo[w] = e;
+    }
+  }
+}
+```
+
 ## Dijkstra算法
 
 ![](Dijkstra对比Prim.png)
 ![](Dijkstra示例1.png)
 ![](Dijkstra示例2.png)
+
+## 无环加权有向图中的最短路径算法
+
+![](无环加权有向图的最短路径算法1.png)
+![](无环加权有向图的最短路径算法2.png)
+
+这个算法包含两个重点：用DFS进行拓扑排序，以排序顺序按顶点逐个放松
+
+利用这个方法，稍作修改即可得到最长路径。最长路径可以用于有优先顺序的并行任务的相关计算
+
+## 一般加权有向图中的最短路径问题
+必须声明的是，在负权重环存在的情况下，最短路径没有任何意义，因为只要沿着这个环兜圈子，就能得到任意短的路径。补充:把负权重环上的点与起点的距离定义为负无穷
+
+### Bellman-Ford算法
+
+![](Bellman-Ford1.png)
+![](Bellman-Ford2.png)
