@@ -1,0 +1,6 @@
+﻿  Data_Structures_in_C.cpp
+e:\workplace\cslearning\scripts\code\data_structures_in_c\data_structures_in_c\data_structures_in_c.cpp(22): warning C4476: "printf": 格式说明符中的类型字段字符“\n”未知
+e:\workplace\cslearning\scripts\code\data_structures_in_c\data_structures_in_c\data_structures_in_c.cpp(22): warning C4474: printf: 格式字符串中传递的参数太多
+  e:\workplace\cslearning\scripts\code\data_structures_in_c\data_structures_in_c\data_structures_in_c.cpp(22): note: 占位符和其参数预计 2 可变参数，但提供的却是 3 参数
+e:\workplace\cslearning\scripts\code\data_structures_in_c\data_structures_in_c\data_structures_in_c.cpp(23): warning C4101: “fuck”: 未引用的局部变量
+  Data_Structures_in_C.vcxproj -> E:\workplace\CSLearning\Scripts\Code\Data_Structures_in_C\Debug\Data_Structures_in_C.exe
